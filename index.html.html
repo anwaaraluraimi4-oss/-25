@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>لوحة التميز الصفية | مدرسة ذات الصواري</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Changa:wght@500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#12304a;--teal:#0f766e;--teal2:#14b8a6;--gold:#f59e0b;
+  --cream:#fffaf0;--white:#fff;--ink:#17324d;
+}
+body{
+  font-family:Tajawal,Arial,sans-serif;min-height:100vh;color:var(--ink);
+  background:linear-gradient(180deg,#dff7f3 0%,#f7fbfa 48%,#dbeafe 100%);
+  overflow-x:hidden;
+}
+button{font-family:inherit}
+.bg{position:fixed;inset:0;z-index:-2;overflow:hidden;background:
+  radial-gradient(circle at 15% 12%,rgba(255,255,255,.9) 0 55px,transparent 56px),
+  radial-gradient(circle at 82% 18%,rgba(255,255,255,.75) 0 75px,transparent 76px),
+  linear-gradient(180deg,#a7e8e0 0%,#e8f8f6 46%,#cfe9f6 100%);
+}
+.bg:before{content:"";position:absolute;left:-5%;right:-5%;bottom:-80px;height:43vh;
+  background:repeating-linear-gradient(90deg,#ccefe8 0 90px,#b8e5dc 90px 180px);
+  transform:skewY(-4deg);opacity:.7}
+.bg:after{content:"";position:absolute;left:0;right:0;top:0;height:220px;
+  background:linear-gradient(180deg,rgba(255,255,255,.5),transparent);pointer-events:none}
+.cloud{position:absolute;width:190px;height:45px;background:#fff;border-radius:50px;opacity:.55;filter:blur(.5px)}
+.cloud:before,.cloud:after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cloud:before{width:75px;height:75px;right:28px;top:-36px}.cloud:after{width:58px;height:58px;right:82px;top:-25px}
+.c1{top:90px;left:8%;animation:float 8s ease-in-out infinite}.c2{top:145px;right:8%;transform:scale(.75);animation:float 10s ease-in-out infinite reverse}
+@keyframes float{50%{transform:translateX(22px)}}
+.app{max-width:1450px;margin:auto;padding:14px 18px 25px;min-height:100vh}
+.top-credit{text-align:center;font-weight:800;color:#24566a;font-size:.92rem;margin:2px 0 7px}
+.school{text-align:center;font-family:Changa;font-weight:900;color:var(--navy);font-size:1.1rem}
+.header{
+  max-width:850px;margin:8px auto 16px;padding:15px 22px;border-radius:30px;
+  background:linear-gradient(135deg,#12304a,#0f766e 55%,#159f91);
+  border:3px solid #f8d27a;box-shadow:0 16px 30px rgba(18,48,74,.22),inset 0 2px 0 rgba(255,255,255,.25);
+  color:#fff;text-align:center;position:relative;overflow:hidden
+}
+.header:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.14) 50%,transparent 75%);transform:translateX(-100%);animation:shine 5s infinite}
+@keyframes shine{35%,100%{transform:translateX(100%)}}
+.header h1{font-family:Changa;font-size:clamp(1.8rem,4vw,3rem);font-weight:900;line-height:1.15;position:relative}
+.header h1 span{color:#ffd166}
+.header p{display:inline-flex;gap:7px;align-items:center;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.22);padding:5px 18px;border-radius:999px;margin-top:7px;font-weight:800;position:relative}
+.dot{width:8px;height:8px;background:#ffd166;border-radius:50%;box-shadow:0 0 10px #ffd166;animation:pulse 1.4s infinite}
+@keyframes pulse{50%{transform:scale(1.35);opacity:.65}}
+.controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin-bottom:18px}
+.control,.counter{background:rgba(255,255,255,.9);border:1px solid #cfe4e1;border-radius:18px;padding:9px 13px;box-shadow:0 6px 15px rgba(15,118,110,.1)}
+.counter{display:flex;align-items:center;gap:9px;font-weight:900}
+.circle{width:34px;height:34px;border:0;border-radius:50%;color:#fff;font-size:1.25rem;font-weight:900;cursor:pointer;box-shadow:0 4px 8px rgba(0,0,0,.18)}
+.minus{background:#ef4444}.plus{background:#10b981}
+.action{border:0;cursor:pointer;border-radius:14px;padding:10px 14px;font-weight:900;background:#f1f5f9;color:#17324d}
+.action:hover{transform:translateY(-1px)}.primary{background:#0f766e;color:#fff}.gold{background:#f59e0b;color:#fff}.danger{color:#be123c}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;align-items:stretch}
+.card{min-height:430px;border-radius:27px;background:#fff;border:3px solid var(--accent);box-shadow:0 15px 25px rgba(18,48,74,.14);overflow:visible;position:relative;display:flex;flex-direction:column;transition:.25s}
+.card:hover{transform:translateY(-5px)}
+.rank{position:absolute;top:-12px;left:-10px;width:45px;height:45px;border-radius:50%;display:grid;place-items:center;font-family:Changa;font-weight:900;font-size:1.15rem;color:#fff;background:var(--accent);border:3px solid #fff;box-shadow:0 5px 10px rgba(0,0,0,.22);z-index:3}
+.crown{position:absolute;top:-38px;left:50%;transform:translateX(-50%);font-size:2.2rem;filter:drop-shadow(0 3px 3px rgba(0,0,0,.25));animation:bounce 1.7s infinite;z-index:4}
+@keyframes bounce{50%{transform:translateX(-50%) translateY(-7px) rotate(-3deg)}}
+.card-head{background:var(--accent);color:#fff;padding:17px 14px 15px;border-radius:23px 23px 0 0;text-align:center}
+.name{font-family:Changa;font-size:1.35rem;font-weight:900;cursor:pointer}
+.nick{color:#fff4c2;font-weight:800;margin-top:2px}
+.score{margin:18px auto 10px;width:130px;height:105px;border-radius:25px;background:linear-gradient(145deg,#12304a,#214c67);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:inset 0 3px 5px rgba(255,255,255,.12),0 8px 13px rgba(0,0,0,.16)}
+.score strong{font-family:Changa;font-size:2.8rem;line-height:1;color:#ffd166}.score span{font-weight:800}
+.points{flex:1;padding:12px;display:flex;justify-content:center;align-items:center}
+.point-list{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:220px}
+.star{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#fff4c2;border:2px solid #f6c453;box-shadow:0 3px 5px rgba(0,0,0,.12);font-size:1.05rem;animation:pop .22s ease}
+@keyframes pop{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
+.empty{text-align:center;color:#8aa0ae;font-weight:800}.empty b{display:block;font-size:2.5rem;opacity:.45}
+.card-actions{display:flex;gap:9px;padding:13px;border-top:1px solid #e2e8f0;background:#f8fafc;border-radius:0 0 23px 23px}
+.card-actions button{flex:1;border:0;border-radius:14px;height:42px;color:#fff;font-size:1.35rem;font-weight:900;cursor:pointer;box-shadow:0 4px 7px rgba(0,0,0,.14)}
+.add{background:linear-gradient(#22c55e,#15803d)}.sub{background:linear-gradient(#fb7185,#be123c)}
+.footer{text-align:center;margin-top:24px}
+.trophy{display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,.88);border:2px solid #f6c453;padding:11px 20px;border-radius:999px;box-shadow:0 8px 18px rgba(0,0,0,.1);font-weight:900;color:#8a5a00}
+.trophy .cup{font-size:2rem}
+.modal{display:none;position:fixed;inset:0;background:rgba(10,28,42,.72);backdrop-filter:blur(7px);z-index:20;align-items:center;justify-content:center;padding:18px}
+.box{width:min(500px,100%);background:#fff;border-radius:28px;padding:24px;border:3px solid #f6c453;box-shadow:0 25px 60px rgba(0,0,0,.3);text-align:center}
+.box h2{font-family:Changa;color:#0f766e;margin-bottom:15px}
+.input{width:100%;padding:12px 14px;border:1px solid #cbd5e1;border-radius:13px;margin:6px 0;font:inherit}
+.modal-row{display:flex;gap:9px;margin-top:12px}.modal-row button{flex:1;padding:11px;border:0;border-radius:13px;font-weight:900;cursor:pointer}
+.save{background:#0f766e;color:#fff}.cancel{background:#e2e8f0}
+.winner-name{font-family:Changa;font-size:2rem;color:#12304a;margin:8px 0}.winner-score{font-size:1.2rem;font-weight:900;color:#b45309}
+@media(max-width:650px){.app{padding:10px}.controls{gap:7px}.action{font-size:.82rem;padding:9px}.grid{grid-template-columns:1fr}.card{max-width:390px;width:100%;margin:auto}}
+</style>
+</head>
+<body>
+<div class="bg"><div class="cloud c1"></div><div class="cloud c2"></div></div>
+
+<div class="app">
+  <div class="top-credit">تصميم أ.أنوار العريميه</div>
+  <div class="school">مدرسة ذات الصواري (1-12)</div>
+
+  <header class="header">
+    <h1><span>✦</span> لوحة التميز الصفية <span>✦</span></h1>
+    <p><i class="dot"></i> تحدي الفرق التعليمية وتحقيق النقاط <i class="dot"></i></p>
+  </header>
+
+  <div class="controls">
+    <div class="counter">
+      <span>عدد الفرق</span>
+      <button class="circle minus" onclick="removeTeam()">−</button>
+      <strong id="count">4</strong>
+      <button class="circle plus" onclick="addTeam()">+</button>
+    </div>
+    <button class="action primary" onclick="addTeam()">➕ إضافة فريق</button>
+    <button class="action" id="soundBtn" onclick="toggleSound()">🔊 المؤثرات</button>
+    <button class="action" onclick="toggleFull()">⛶ شاشة كاملة</button>
+    <button class="action danger" onclick="resetScores()">↺ تصفير النقاط</button>
+    <button class="action gold" onclick="showWinner()">🏆 إعلان المتصدر</button>
+  </div>
+
+  <main class="grid" id="grid"></main>
+
+  <footer class="footer">
+    <div class="trophy"><span class="cup">🏆</span><span id="leaderText">المنافسة مستمرة... أضيفوا النقاط!</span></div>
+  </footer>
+</div>
+
+<div class="modal" id="editModal">
+  <div class="box">
+    <h2>✏️ تعديل بيانات الفريق</h2>
+    <input class="input" id="nameInput" placeholder="اسم الفريق">
+    <input class="input" id="nickInput" placeholder="اللقب أو الشعار">
+    <div class="modal-row">
+      <button class="cancel" onclick="closeEdit()">إلغاء</button>
+      <button class="save" onclick="saveEdit()">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="winnerModal">
+  <div class="box">
+    <div style="font-size:3rem">🏆</div>
+    <h2>✨ المتصدر ✨</h2>
+    <div class="winner-name" id="winnerName"></div>
+    <div id="winnerNick" style="font-weight:800;color:#0f766e"></div>
+    <div class="winner-score">مجموع النقاط: <span id="winnerScore"></span></div>
+    <div class="modal-row"><button class="save" onclick="closeWinner()">متابعة التحدي</button></div>
+  </div>
+</div>
+
+<script>
+const KEY="zatsawari_points_v2";
+const themes=[
+ {accent:"#0f766e",light:"#e8f8f6"},
+ {accent:"#2563eb",light:"#eff6ff"},
+ {accent:"#d97706",light:"#fff7ed"},
+ {accent:"#be123c",light:"#fff1f2"},
+ {accent:"#7c3aed",light:"#f5f3ff"},
+ {accent:"#059669",light:"#ecfdf5"},
+ {accent:"#0284c7",light:"#f0f9ff"},
+ {accent:"#b45309",light:"#fffbeb"}
+];
+let teams=[
+ {id:"1",name:"الفريق الأول",nickname:"المبدعون",score:4},
+ {id:"2",name:"الفريق الثاني",nickname:"المتألقون",score:2},
+ {id:"3",name:"الفريق الثالث",nickname:"رواد التقنية",score:1},
+ {id:"4",name:"الفريق الرابع",nickname:"صناع الأثر",score:0}
+];
+let sound=true, editing=null;
+try{const s=localStorage.getItem(KEY);if(s)teams=JSON.parse(s)}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(teams))}catch(e){}}
+function beep(type="up"){
+ if(!sound)return;
+ try{
+  const C=window.AudioContext||window.webkitAudioContext,ctx=new C(),o=ctx.createOscillator(),g=ctx.createGain();
+  o.type="sine";o.frequency.value=type==="down"?230:620;g.gain.setValueAtTime(.16,ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.18);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+.2);
+ }catch(e){}
+}
+function render(){
+ document.getElementById("count").textContent=teams.length;
+ const max=Math.max(...teams.map(t=>t.score),0);
+ const sorted=[...new Set(teams.map(t=>t.score))].sort((a,b)=>b-a);
+ document.getElementById("leaderText").textContent=max>0
+   ?"⭐ المتصدر الآن: "+teams.find(t=>t.score===max).name+" — "+max+" نقطة"
+   :"المنافسة مستمرة... أضيفوا النقاط!";
+ const grid=document.getElementById("grid");grid.innerHTML="";
+ teams.forEach((t,i)=>{
+  const th=themes[i%themes.length],leader=max>0&&t.score===max,rank=sorted.indexOf(t.score)+1;
+  const card=document.createElement("section");card.className="card";card.style.setProperty("--accent",th.accent);card.style.background=`linear-gradient(180deg,${th.light},#fff)`;
+  let stars="";
+  for(let n=0;n<t.score&&n<18;n++)stars+=`<span class="star">★</span>`;
+  if(t.score>18)stars+=`<span style="width:100%;text-align:center;font-weight:900;color:#b45309">+${t.score-18} نقطة</span>`;
+  card.innerHTML=`
+    ${leader?'<div class="crown">👑</div>':''}
+    <div class="rank">${rank}</div>
+    <div class="card-head">
+      <div class="name" onclick="openEdit('${t.id}')" title="اضغط لتعديل الاسم">${esc(t.name)}</div>
+      <div class="nick">${esc(t.nickname)}</div>
+    </div>
+    <div class="score"><strong>${t.score}</strong><span>نقطة</span></div>
+    <div class="points">${t.score?`<div class="point-list">${stars}</div>`:`<div class="empty"><b>☆</b>ابدأوا بجمع النقاط</div>`}</div>
+    <div class="card-actions">
+      <button class="sub" onclick="change('${t.id}',-1)">−</button>
+      <button class="add" onclick="change('${t.id}',1)">+</button>
+    </div>`;
+  grid.appendChild(card);
+ });
+}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function change(id,delta){
+ const t=teams.find(x=>x.id===id);if(!t)return;
+ if(delta<0&&t.score===0)return;
+ t.score+=delta;save();beep(delta>0?"up":"down");
+ if(delta>0&&window.confetti)confetti({particleCount:18,spread:45,origin:{y:.72}});
+ render();
+}
+function addTeam(){
+ if(teams.length>=8){alert("يمكن إضافة 8 فرق كحد أقصى.");return}
+ const n=teams.length+1;
+ teams.push({id:Date.now().toString(),name:"الفريق "+n,nickname:"فريق التميز",score:0});
+ save();beep();render();
+}
+function removeTeam(){
+ if(teams.length<=1)return;
+ teams.pop();save();beep("down");render();
+}
+function resetScores(){
+ if(confirm("هل تريدين تصفير نقاط جميع الفرق؟")){
+  teams.forEach(t=>t.score=0);save();render();
+ }
+}
+function openEdit(id){
+ editing=id;const t=teams.find(x=>x.id===id);if(!t)return;
+ document.getElementById("nameInput").value=t.name;
+ document.getElementById("nickInput").value=t.nickname;
+ document.getElementById("editModal").style.display="flex";
+}
+function closeEdit(){document.getElementById("editModal").style.display="none";editing=null}
+function saveEdit(){
+ const t=teams.find(x=>x.id===editing);if(t){
+  const n=document.getElementById("nameInput").value.trim(),k=document.getElementById("nickInput").value.trim();
+  if(n)t.name=n;if(k)t.nickname=k;save();
+ }
+ closeEdit();render();
+}
+function toggleSound(){
+ sound=!sound;document.getElementById("soundBtn").textContent=sound?"🔊 المؤثرات":"🔇 المؤثرات صامتة";
+}
+function toggleFull(){
+ if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();
+ else document.exitFullscreen?.();
+}
+function showWinner(){
+ const max=Math.max(...teams.map(t=>t.score),0),t=teams.find(x=>x.score===max);
+ if(!t)return;
+ document.getElementById("winnerName").textContent=t.name;
+ document.getElementById("winnerNick").textContent=t.nickname;
+ document.getElementById("winnerScore").textContent=t.score;
+ document.getElementById("winnerModal").style.display="flex";
+ if(window.confetti)confetti({particleCount:120,spread:85,origin:{y:.55}});
+ beep();
+}
+function closeWinner(){document.getElementById("winnerModal").style.display="none"}
+render();
+</script>
+</body>
+</html>
